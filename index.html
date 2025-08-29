@@ -4,12 +4,48 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Orientation App</title>
-  <link href="style.css" rel="stylesheet" />
-  <script defer src="script.js"></script>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 2rem; }
+    #view { margin-top: 2rem; font-size: 1.2rem; }
+  </style>
 </head>
 <body>
-  <div id="app" class="container">
-    <div id="view">Rotate your device to begin!</div>
-  </div>
+  <h1>Rotate Your Device</h1>
+  <div id="view">Rotate your device to begin!</div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const view = document.getElementById("view");
+
+      function handleOrientation(event) {
+        const { beta, gamma } = event;
+        let orientation = "";
+
+        if (beta > 150 || beta < -150) orientation = "portrait-upside-down";
+        else if (Math.abs(gamma) < 10) orientation = "portrait";
+        else if (gamma > 30) orientation = "landscape-right";
+        else if (gamma < -30) orientation = "landscape-left";
+
+        switch (orientation) {
+          case "portrait":
+            view.innerHTML = "<h2>⏰ Alarm</h2><p>Set your alarm time and sound.</p>";
+            break;
+          case "landscape-right":
+            view.innerHTML = "<h2>⏱️ Stopwatch</h2><p>Track your time with laps.</p>";
+            break;
+          case "portrait-upside-down":
+            view.innerHTML = "<h2>⏳ Timer</h2><p>Countdown with alerts.</p>";
+            break;
+          case "landscape-left":
+            view.innerHTML = "<h2>🌦️ Weather</h2><p>Fetching weather data...</p>";
+            break;
+          default:
+            view.innerHTML = "Rotate your device to begin!";
+        }
+      }
+
+      window.addEventListener("deviceorientation", handleOrientation);
+    });
+  </script>
 </body>
 </html>
