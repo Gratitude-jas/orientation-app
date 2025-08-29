@@ -55,5 +55,21 @@ function initOrientationListener() {
     window.addEventListener("deviceorientation", handleOrientation);
   }
 }
+function checkScreenOrientation() {
+  const type = screen.orientation?.type || "";
+  const view = document.getElementById("view");
+
+  if (type.includes("portrait")) {
+    view.innerHTML = "<h2>⏰ Alarm</h2><p>Portrait mode detected.</p>";
+  } else if (type.includes("landscape")) {
+    view.innerHTML = "<h2>⏱️ Stopwatch</h2><p>Landscape mode detected.</p>";
+  } else {
+    view.innerHTML = "Rotate your device to begin!";
+  }
+}
+
+screen.orientation?.addEventListener("change", checkScreenOrientation);
+window.addEventListener("DOMContentLoaded", checkScreenOrientation);
+
 
 window.addEventListener("DOMContentLoaded", initOrientationListener);
