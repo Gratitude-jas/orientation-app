@@ -3,9 +3,10 @@ import { renderStopwatch } from './components/stopwatch.js';
 import { renderTimer } from './components/timer.js';
 import { fetchWeather, renderWeather } from './components/weather.js';
 
-window.addEventListener("deviceorientation", async (event) => {
+const view = document.getElementById("view");
+
+function handleOrientation(event) {
   const { beta, gamma } = event;
-  const view = document.getElementById("view");
 
   let orientation = "";
 
@@ -25,10 +26,36 @@ window.addEventListener("deviceorientation", async (event) => {
       view.innerHTML = renderTimer();
       break;
     case "landscape-left":
-      const data = await fetchWeather();
-      view.innerHTML = renderWeather(data);
+      fetchWeather().then(data => {
+        view.innerHTML = renderWeather(data);
+      });
       break;
     default:
       view.innerHTML = "Rotate your device to begin!";
   }
-});
+}
+
+// ✅ Permission-aware setup
+function initOrientationListener() {
+  if (typeof DeviceOrientationEvent?.requestPermission === "function") {
+    // iOS Safari
+    DeviceOrientationEvent.requestPermission()
+      .then(permissionState => {
+        if (permissionState === "granted") {
+          window.addEventListener("deviceorientation", handleOrientation);
+        } else {
+          view.innerHTML = "Motion access denied. Please enable it in settings.";
+        }
+      })
+      .catch(err => {
+        console.error("Permission error:", err);
+        view.innerHTML = "Unable to access device orientation.";
+      });
+  } else {
+    // Android or desktop
+    window.addEventListener("deviceorientation", handleOrientation);
+  }
+}
+
+// 🔁 Initialize on load
+window.addEventListener("DOMContentLoaded", initOrientationListener);
