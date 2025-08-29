@@ -22,3 +22,32 @@ body {
   font-size: 1.2rem;
   transition: all 0.3s ease;
 }
+
+#view {
+  transition: opacity 0.5s ease;
+}
+.hidden {
+  opacity: 0;
+}
+
+h2 {
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.light-mode {
+  background-color: #ffffff;
+  color: #222;
+}
+
+.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}

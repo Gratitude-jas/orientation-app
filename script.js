@@ -33,7 +33,31 @@ function handleOrientation(event) {
     default:
       view.innerHTML = "Rotate your device to begin!";
   }
+  if ("vibrate" in navigator) {
+    navigator.vibrate([100, 50, 100]);
+  }
 }
+const toggleBtn = document.getElementById("modeToggle");
+const body = document.body;
+
+toggleBtn.addEventListener("click", () => {
+  body.classList.toggle("dark-mode");
+  body.classList.toggle("light-mode");
+});
+
+const currentMode = localStorage.getItem("mode") || "light";
+body.classList.add(currentMode + "-mode");
+
+toggleBtn.addEventListener("click", () => {
+  const newMode = body.classList.contains("dark-mode") ? "light" : "dark";
+  body.classList.remove("light-mode", "dark-mode");
+  body.classList.add(newMode + "-mode");
+  localStorage.setItem("mode", newMode);
+});
+
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+body.classList.add(prefersDark ? "dark-mode" : "light-mode");
+
 
 function initOrientationListener() {
   if (typeof DeviceOrientationEvent?.requestPermission === "function") {
@@ -70,6 +94,11 @@ function checkScreenOrientation() {
 
 screen.orientation?.addEventListener("change", checkScreenOrientation);
 window.addEventListener("DOMContentLoaded", checkScreenOrientation);
+view.classList.add("hidden");
+setTimeout(() => {
+  view.innerHTML = renderAlarm(); // or whichever module
+  view.classList.remove("hidden");
+}, 300);
 
 
 window.addEventListener("DOMContentLoaded", initOrientationListener);
