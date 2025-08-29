@@ -35,7 +35,6 @@ function handleOrientation(event) {
   }
 }
 
-// ✅ Permission-aware setup
 function initOrientationListener() {
   if (typeof DeviceOrientationEvent?.requestPermission === "function") {
     // iOS Safari
@@ -57,5 +56,4 @@ function initOrientationListener() {
   }
 }
 
-// 🔁 Initialize on load
 window.addEventListener("DOMContentLoaded", initOrientationListener);
