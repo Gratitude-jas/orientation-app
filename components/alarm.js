@@ -1,7 +1,5 @@
-export function renderAlarm() {
-  return `
-    <h2>⏰ Set Alarm</h2>
-    <input type="time" />
-    <p>Choose a time and set your alarm.</p>
-  `;
+export function renderAlarm(view, renderFloating) {
+  document.body.style.background = "#2c3e50";
+  view.innerHTML = `<h2>⏰ Alarm</h2><p>Set your alarm time and sound.</p>`;
+  renderFloating("🕰️");
 }
