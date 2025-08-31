@@ -1,7 +1,7 @@
 import { renderAlarm } from './components/alarm.js';
 import { renderStopwatch } from './components/stopwatch.js';
 import { renderTimer } from './components/timer.js';
-import { renderWeather } from './components/weather.js';
+import { fetchWeather, renderWeather } from './components/weather.js';
 
 const view = document.getElementById("view");
 const bg = document.getElementById("bg");
@@ -20,7 +20,7 @@ function renderFloating(icon, count = 10) {
   }
 }
 
-function renderModule(mode) {
+async function renderModule(mode) {
   if (mode === currentMode) return;
   currentMode = mode;
   document.body.className = "";
@@ -36,7 +36,8 @@ function renderModule(mode) {
       renderTimer(view, renderFloating);
       break;
     case "landscape-left":
-      renderWeather(view, renderFloating);
+      const data = await fetchWeather();
+      renderWeather(view, renderFloating, data);
       break;
     default:
       view.innerHTML = "Rotate your device to begin!";
