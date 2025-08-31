@@ -1,4 +1,4 @@
-const API_KEY = "YOUR_API_KEY"; // Replace with your OpenWeatherMap API key
+const API_KEY = '3fb14e32bc7fd8d0f2d5ca75b8164902'; // Replace with your OpenWeatherMap API key
 const CITY = "Coimbatore"; // You can make this dynamic later
 
 export async function fetchWeather() {
